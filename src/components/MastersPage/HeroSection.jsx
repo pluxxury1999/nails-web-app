@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 
 import React from "react";
 import { styled } from "@mui/system";
@@ -17,7 +17,6 @@ const HeroSection = () => {
         >
             <Container maxWidth="lg">
                 <Grid container spacing={4} alignItems="center">
-                    {/* Ліва частина - текст */}
                     <Grid item xs={12} md={6}>
                         <Typography
                             variant="h3"
@@ -38,14 +37,6 @@ const HeroSection = () => {
                             Від зачісок до макіяжу, наші експерти перетворять
                             ваші бажання в реальність.
                         </Typography>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            size="large"
-                            sx={{ mt: 3 }}
-                        >
-                            Дізнатися про послуги
-                        </Button>
                     </Grid>
 
                     {/* Права частина - зображення */}

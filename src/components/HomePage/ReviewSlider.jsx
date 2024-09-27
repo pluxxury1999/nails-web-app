@@ -12,31 +12,7 @@ import {
 import { Link } from "react-router-dom"; // Додаємо Link з react-router-dom
 import React from "react";
 import Slider from "react-slick";
-
-// Список відгуків для демонстрації
-const testimonials = [
-    {
-        name: "Джейн Доу",
-        service: "Стрижка",
-        master: "Джон Сміт",
-        review: "Моя стрижка виглядає просто неймовірно. Джон виконав фантастичну роботу!",
-        rating: 5,
-    },
-    {
-        name: "Емілі Джонсон",
-        service: "Манікюр",
-        master: "Анна Браун",
-        review: "Я мала чудовий досвід. Анна дуже професійна та уважна. Дуже рекомендую!",
-        rating: 4,
-    },
-    {
-        name: "Майкл Вільямс",
-        service: "Масаж",
-        master: "Марк Девіс",
-        review: "Масаж був неймовірно розслаблюючим. У Марка просто чарівні руки! Обов'язково повернуся знову.",
-        rating: 5,
-    },
-];
+import testimonials from "./testimonials"; // Імпортуємо масив відгуків з файлу testimonials.js
 
 const ReviewSlider = () => {
     // Налаштування для слайдера
