@@ -20,8 +20,8 @@ const BookingForm = ({ master, onBack }) => {
     const [customerPhone, setCustomerPhone] = useState("");
     const [phoneError, setPhoneError] = useState("");
     const [bookedTimes, setBookedTimes] = useState([]);
-    const [isBookingSuccess, setBookingSuccess] = useState(false); // Стан для успішного запису
-    const [bookingDetails, setBookingDetails] = useState(null); // Деталі бронювання
+    const [isBookingSuccess, setBookingSuccess] = useState(false);
+    const [bookingDetails, setBookingDetails] = useState(null);
 
     const availableTimes = [
         "10:00",
@@ -33,65 +33,79 @@ const BookingForm = ({ master, onBack }) => {
         "16:00",
         "17:00",
         "18:00",
-    ]; // Приклад доступних годин
+    ];
 
     useEffect(() => {
         if (master && master.name) {
             const bookings = JSON.parse(localStorage.getItem("bookings")) || [];
-            const masterBookings = bookings.filter(
-                (booking) => booking.master === master.name
+            const masterData = bookings.find(
+                (item) => item.master === master.name
             );
-            setBookedTimes(
-                masterBookings.map(
-                    (booking) => `${booking.date} ${booking.time}`
-                )
-            );
+
+            if (masterData && Array.isArray(masterData.records)) {
+                setBookedTimes(masterData.records);
+            } else {
+                setBookedTimes([]);
+            }
         }
     }, [master]);
 
-    // Функція для перевірки номера телефону
     const validatePhone = (phone) => {
-        const phoneRegex = /^[0-9]{10}$/; // Перевірка для українського номера
+        const phoneRegex = /^[0-9]{10}$/;
         return phoneRegex.test(phone);
     };
 
-    // Функція для генерації списку дат на наступний місяць
     const generateDates = () => {
         const dates = [];
         const currentDate = new Date();
         for (let i = 0; i < 30; i++) {
             const date = new Date(currentDate);
             date.setDate(currentDate.getDate() + i);
-            dates.push(date.toISOString().split("T")[0]); // Формат дати YYYY-MM-DD
+            dates.push(date.toISOString().split("T")[0]);
         }
         return dates;
     };
 
-    const availableDates = generateDates(); // Отримуємо список доступних дат
+    const availableDates = generateDates();
 
-    // Функція для визначення кількості заблокованих слотів на основі тривалості послуги
-    const getBlockedSlots = (startSlot, duration) => {
-        const startIndex = availableTimes.indexOf(startSlot);
-        const slotsNeeded = Math.ceil(duration / 60); // Кількість потрібних слотів
-        return availableTimes.slice(startIndex, startIndex + slotsNeeded);
+    const timeToMinutes = (timeStr) => {
+        const [hours, minutes] = timeStr.split(":").map(Number);
+        return hours * 60 + minutes;
     };
 
-    // Перевірка наявності заблокованих слотів у selectedDate і selectedTime
-    const isTimeUnavailable = () => {
-        if (!selectedDate || !selectedTime || !selectedServiceDuration)
-            return false;
-        const slotsToBlock = getBlockedSlots(
-            selectedTime,
-            selectedServiceDuration
-        ).map((slot) => `${selectedDate} ${slot}`);
-        return slotsToBlock.some((slot) => bookedTimes.includes(slot));
+    const isTimeOverlap = (start1, end1, start2, end2) => {
+        return Math.max(start1, start2) < Math.min(end1, end2);
     };
 
-    // Перевірка, чи обрана дата і час знаходяться в минулому
-    const isPastDateTime = () => {
-        if (!selectedDate || !selectedTime) return false;
-        const selectedDateTime = new Date(`${selectedDate}T${selectedTime}`);
-        return selectedDateTime < new Date(); // Порівняння з поточним часом
+    const calculateFinishTime = (startTime, duration) => {
+        const [hours, minutes] = startTime.split(":").map(Number);
+        const totalMinutes = hours * 60 + minutes + duration;
+        const finishHours = Math.floor(totalMinutes / 60);
+        const finishMinutes = totalMinutes % 60;
+        const finishTime = `${String(finishHours).padStart(2, "0")}:${String(
+            finishMinutes
+        ).padStart(2, "0")}`;
+        return finishTime;
+    };
+
+    const isTimeSlotAvailable = (timeSlot) => {
+        if (!selectedDate || !selectedServiceDuration) return true;
+
+        const newStart = timeToMinutes(timeSlot);
+        const newEnd = newStart + selectedServiceDuration;
+
+        return !bookedTimes.some((record) => {
+            if (record.date !== selectedDate) return false;
+            const existingStart = timeToMinutes(record.time);
+            const existingEnd = timeToMinutes(record.finishTime);
+            return isTimeOverlap(newStart, newEnd, existingStart, existingEnd);
+        });
+    };
+
+    const isPastDateTime = (timeSlot) => {
+        if (!selectedDate || !timeSlot) return false;
+        const selectedDateTime = new Date(`${selectedDate}T${timeSlot}`);
+        return selectedDateTime < new Date();
     };
 
     const handleBooking = () => {
@@ -100,37 +114,79 @@ const BookingForm = ({ master, onBack }) => {
             return;
         }
 
-        const slotsToBlock = getBlockedSlots(
+        const finishTime = calculateFinishTime(
             selectedTime,
             selectedServiceDuration
         );
 
-        const bookingData = slotsToBlock.map((slot) => ({
-            master: master.name,
+        const bookingRecord = {
             service: selectedService,
-            date: selectedDate, // Додаємо дату
-            time: slot,
-            duration: selectedServiceDuration,
-            customerName: customerName,
-            customerPhone: customerPhone,
-        }));
+            date: selectedDate,
+            time: selectedTime,
+            finishTime: finishTime,
+            customer: {
+                name: customerName,
+                phone: customerPhone,
+            },
+        };
 
-        // Збереження всіх слотів у localStorage
         const existingBookings =
             JSON.parse(localStorage.getItem("bookings")) || [];
-        localStorage.setItem(
-            "bookings",
-            JSON.stringify([...existingBookings, ...bookingData])
+
+        // Знаходимо індекс майстра в масиві
+        const masterIndex = existingBookings.findIndex(
+            (item) => item.master === master.name
         );
 
-        // Оновлення заброньованих часових слотів у стані
-        const newBookedTimes = [
-            ...bookedTimes,
-            ...slotsToBlock.map((slot) => `${selectedDate} ${slot}`),
-        ];
-        setBookedTimes(newBookedTimes);
+        if (masterIndex !== -1) {
+            const masterData = existingBookings[masterIndex];
 
-        // Встановлення стану успішного запису
+            // Переконуємося, що records є масивом
+            if (!Array.isArray(masterData.records)) {
+                masterData.records = [];
+            }
+
+            const newStart = timeToMinutes(selectedTime);
+            const newEnd = newStart + selectedServiceDuration;
+
+            const isOverlap = masterData.records.some((record) => {
+                if (record.date !== selectedDate) return false;
+                const existingStart = timeToMinutes(record.time);
+                const existingEnd = timeToMinutes(record.finishTime);
+                return isTimeOverlap(
+                    newStart,
+                    newEnd,
+                    existingStart,
+                    existingEnd
+                );
+            });
+
+            if (isOverlap) {
+                alert("Цей час вже зайнятий. Будь ласка, виберіть інший час.");
+                return;
+            }
+
+            // Додаємо новий запис
+            masterData.records.push(bookingRecord);
+
+            // Оновлюємо майстра в масиві
+            existingBookings[masterIndex] = masterData;
+        } else {
+            // Якщо майстра немає, додаємо його
+            const newMasterData = {
+                master: master.name,
+                photo: master.photo,
+                records: [bookingRecord],
+            };
+            existingBookings.push(newMasterData);
+        }
+
+        // Зберігаємо оновлені дані
+        localStorage.setItem("bookings", JSON.stringify(existingBookings));
+
+        // Оновлюємо стан заброньованих часів
+        setBookedTimes([...bookedTimes, bookingRecord]);
+
         setBookingSuccess(true);
         setBookingDetails({
             master: master.name,
@@ -142,7 +198,6 @@ const BookingForm = ({ master, onBack }) => {
 
     return (
         <Box>
-            {/* Якщо запис успішний, відображаємо повідомлення */}
             {isBookingSuccess ? (
                 <Box sx={{ textAlign: "center", p: 3 }}>
                     <Typography variant="h5" gutterBottom>
@@ -163,7 +218,7 @@ const BookingForm = ({ master, onBack }) => {
                     <Button
                         variant="contained"
                         color="secondary"
-                        onClick={onBack} // Закриваємо попап
+                        onClick={onBack}
                         sx={{ mt: 3 }}
                     >
                         Закрити
@@ -194,7 +249,7 @@ const BookingForm = ({ master, onBack }) => {
                                     (s) => s.title === e.target.value
                                 );
                                 setSelectedService(service.title);
-                                setSelectedServiceDuration(service.duration); // Встановлюємо тривалість послуги
+                                setSelectedServiceDuration(service.duration);
                             }}
                             label="Виберіть послугу"
                         >
@@ -232,39 +287,34 @@ const BookingForm = ({ master, onBack }) => {
                             value={selectedTime}
                             onChange={(e) => setSelectedTime(e.target.value)}
                             label="Виберіть час"
-                            disabled={!selectedDate} // Вимикаємо, якщо дата не обрана
+                            disabled={!selectedDate}
                         >
                             {availableTimes.map((time, index) => (
                                 <MenuItem
                                     key={index}
                                     value={time}
                                     disabled={
-                                        isTimeUnavailable() ||
-                                        isPastDateTime() ||
-                                        bookedTimes.includes(
-                                            `${selectedDate} ${time}`
-                                        )
+                                        !isTimeSlotAvailable(time) ||
+                                        isPastDateTime(time)
                                     }
                                 >
                                     {time}{" "}
-                                    {isTimeUnavailable() ||
-                                    bookedTimes.includes(
-                                        `${selectedDate} ${time}`
-                                    )
+                                    {!isTimeSlotAvailable(time)
                                         ? "(Зайнято)"
                                         : ""}
-                                    {isPastDateTime() && selectedTime === time
+                                    {isPastDateTime(time)
                                         ? " (Минулий час)"
                                         : ""}
                                 </MenuItem>
                             ))}
                         </Select>
                         {selectedTime &&
-                            (isTimeUnavailable() || isPastDateTime()) && (
+                            (!isTimeSlotAvailable(selectedTime) ||
+                                isPastDateTime(selectedTime)) && (
                                 <FormHelperText error>
-                                    {isPastDateTime()
+                                    {isPastDateTime(selectedTime)
                                         ? "Вибраний час уже минув. Будь ласка, виберіть інший час."
-                                        : "Вибраний час або наступний слот уже зайняті. Будь ласка, виберіть інший час."}
+                                        : "Вибраний час зайнятий. Будь ласка, виберіть інший час."}
                                 </FormHelperText>
                             )}
                     </FormControl>
@@ -283,7 +333,7 @@ const BookingForm = ({ master, onBack }) => {
                         value={customerPhone}
                         onChange={(e) => {
                             setCustomerPhone(e.target.value);
-                            setPhoneError(""); // Очистка помилки при зміні вводу
+                            setPhoneError("");
                         }}
                         error={!!phoneError}
                         helperText={phoneError}
@@ -299,8 +349,8 @@ const BookingForm = ({ master, onBack }) => {
                             !selectedTime ||
                             !customerName ||
                             !customerPhone ||
-                            isTimeUnavailable() ||
-                            isPastDateTime()
+                            !isTimeSlotAvailable(selectedTime) ||
+                            isPastDateTime(selectedTime)
                         }
                         fullWidth
                     >
