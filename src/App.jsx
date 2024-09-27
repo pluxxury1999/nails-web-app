@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import AdminAuthForm from "./components/AdminPage/AdminAuthForm";
+import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Masters from "./pages/Masters";
 import PageWrapper from "./components/utility/PageWrapper";
@@ -17,6 +18,8 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 <Route path="/masters" element={<Masters />} />
                 <Route path="/services" element={<Services />} />
+                <Route path="/admin" element={<AdminAuthForm />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="*" element={<Navigate to="/home" replace />} />
             </Routes>
         </PageWrapper>
