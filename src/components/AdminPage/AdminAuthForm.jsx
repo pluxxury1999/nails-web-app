@@ -48,6 +48,7 @@ const AdminAuthForm = () => {
             <TextField
                 label="Ім'я користувача"
                 variant="outlined"
+                color="secondary"
                 fullWidth
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -56,6 +57,7 @@ const AdminAuthForm = () => {
             <TextField
                 label="Пароль"
                 variant="outlined"
+                color="secondary"
                 type="password"
                 fullWidth
                 value={password}
@@ -64,7 +66,7 @@ const AdminAuthForm = () => {
             />
             <Button
                 variant="contained"
-                color="primary"
+                color="secondary"
                 fullWidth
                 onClick={handleLogin}
             >

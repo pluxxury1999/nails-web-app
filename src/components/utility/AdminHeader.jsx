@@ -24,7 +24,8 @@ const AdminHeader = () => {
 
                 {/* Права частина з кнопкою виходу */}
                 <Button
-                    color="inherit"
+                    variant="contained"
+                    color="secondary"
                     onClick={handleLogout}
                     sx={{
                         borderColor: "#fff",
