@@ -1,12 +1,14 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import Home from "./pages/Home";
-import Masters from "./pages/Masters";
-import Services from "./pages/Services";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "leaflet/dist/leaflet.css";
-import PageWrapper from "./components/utility/PageWrapper";
 
+import { Navigate, Route, Routes } from "react-router-dom";
+
+import AdminAuthForm from "./components/AdminPage/AdminAuthForm";
+import Home from "./pages/Home";
+import Masters from "./pages/Masters";
+import PageWrapper from "./components/utility/PageWrapper";
+import Services from "./pages/Services";
 
 function App() {
     return (

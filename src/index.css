@@ -3,3 +3,34 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Загальний стиль для всіх скролбарів */
+*::-webkit-scrollbar {
+    width: 8px; /* Ширина скролбару */
+    height: 8px; /* Висота скролбару для горизонтальних скролбарів */
+}
+
+*::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Колір заднього плану */
+    border-radius: 10px; /* Закруглені кути треку */
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #c1c1c1; /* Колір самого скролу */
+    border-radius: 10px; /* Закруглені кути скролу */
+    border: 2px solid #f1f1f1; /* Відступ та колір навколо скролу */
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-color: #a0a0a0; /* Колір скролу при наведенні */
+}
+
+/* Додаткові стилі для більшої плавності */
+*::-webkit-scrollbar-corner {
+    background: transparent; /* Прозорий кут для квадратних скролбарів */
+}
+
+/* Стиль для горизонтального скролбару */
+*::-webkit-scrollbar-thumb:horizontal {
+    background-color: #b0b0b0; /* Колір для горизонтального скролу */
+}

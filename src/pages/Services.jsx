@@ -1,8 +1,12 @@
+import CategoryList from "../components/ServicesPage/CategoryList";
+import ContactSuggestion from "../components/ServicesPage/ContactSuggestion";
+
 const Services = () => {
     return (
-        <div>
-            <h1>Services</h1>
-        </div>
+        <>
+            <CategoryList />
+            <ContactSuggestion />
+        </>
     );
 };
 

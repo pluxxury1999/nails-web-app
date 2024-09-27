@@ -1,9 +1,38 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import React, { useState } from "react";
 
-import React from "react";
+import BookingPopup from "../Forms/BookingPopup"; // Імпортуємо компонент попапу для запису
+import MasterSelectPopup from "../Forms/MasterSelectPopup"; // Імпортуємо компонент вибору майстра
 import { styled } from "@mui/system";
 
 const HeroSection = () => {
+    const [isMasterSelectOpen, setMasterSelectOpen] = useState(false); // Стан для відкриття вибору майстра
+    const [selectedMaster, setSelectedMaster] = useState(null); // Зберігає вибраного майстра
+    const [isBookingOpen, setBookingOpen] = useState(false); // Стан для попапу бронювання
+
+    // Функція для відкриття вибору майстра
+    const handleBookNowClick = () => {
+        setMasterSelectOpen(true); // Відкриваємо попап вибору майстра
+    };
+
+    // Функція для закриття вибору майстра
+    const handleMasterSelectClose = () => {
+        setMasterSelectOpen(false);
+    };
+
+    // Функція для обробки вибору майстра
+    const handleMasterSelect = (master) => {
+        setSelectedMaster(master); // Зберігаємо вибраного майстра
+        setMasterSelectOpen(false); // Закриваємо вибір майстра
+        setBookingOpen(true); // Відкриваємо попап для бронювання
+    };
+
+    // Функція для закриття попапу бронювання
+    const handleBookingClose = () => {
+        setBookingOpen(false);
+        setSelectedMaster(null); // Скидаємо вибраного майстра після закриття попапу
+    };
+
     return (
         <Box
             sx={{
@@ -42,6 +71,7 @@ const HeroSection = () => {
                             color="secondary"
                             size="large"
                             sx={{ mt: 3 }}
+                            onClick={handleBookNowClick} // Відкриваємо вибір майстра при натисканні
                         >
                             Записатися
                         </Button>
@@ -59,6 +89,24 @@ const HeroSection = () => {
                     </Grid>
                 </Grid>
             </Container>
+
+            {/* Попап для вибору майстра */}
+            {isMasterSelectOpen && (
+                <MasterSelectPopup
+                    isOpen={isMasterSelectOpen}
+                    onClose={handleMasterSelectClose}
+                    onSelect={handleMasterSelect} // Передаємо функцію для обробки вибору майстра
+                />
+            )}
+
+            {/* Попап для бронювання після вибору майстра */}
+            {selectedMaster && (
+                <BookingPopup
+                    isOpen={isBookingOpen}
+                    onClose={handleBookingClose}
+                    master={selectedMaster} // Передаємо вибраного майстра до попапу бронювання
+                />
+            )}
         </Box>
     );
 };
