@@ -1,8 +1,10 @@
+import HeroSection from "../components/MastersPage/HeroSection";
+
 const Masters = () => {
   return (
-    <div>
-      <h1>Masters</h1>
-    </div>
+    <>
+      <HeroSection />
+    </>
   );
 };
 

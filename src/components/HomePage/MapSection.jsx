@@ -1,7 +1,8 @@
-import React from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import { Box, Typography, Container } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+
 import L from "leaflet";
+import React from "react";
 
 // Дефолтна позиція маркера (координати салону)
 const salonPosition = [50.4501, 30.5234]; // Заміни на реальні координати вашого салону
@@ -28,7 +29,7 @@ const MapSection = () => {
                     align="center"
                     gutterBottom
                 >
-                    Visit Our Salon
+                    Завітайте до нашого салону
                 </Typography>
                 <Typography
                     variant="body1"
@@ -36,8 +37,8 @@ const MapSection = () => {
                     color="textSecondary"
                     paragraph
                 >
-                    We are located at the heart of the city. Find us easily on
-                    the map below.
+                    Ми знаходимося в самому серці міста. Легко знайдіть нас на
+                    карті нижче.
                 </Typography>
                 <Box
                     sx={{
@@ -61,13 +62,13 @@ const MapSection = () => {
                         <Marker position={salonPosition} icon={markerIcon}>
                             <Popup>
                                 <Typography variant="subtitle1" gutterBottom>
-                                    Our Beauty Salon
+                                    Наш Beauty Salon
                                 </Typography>
                                 <Typography
                                     variant="body2"
                                     color="textSecondary"
                                 >
-                                    123 Main Street, City Center
+                                    123 Головна вулиця, Центр міста
                                 </Typography>
                             </Popup>
                         </Marker>

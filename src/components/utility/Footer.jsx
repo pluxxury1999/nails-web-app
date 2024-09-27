@@ -18,13 +18,13 @@ const Footer = () => {
                     {/* Контактна інформація */}
                     <Grid item xs={12} md={4}>
                         <Typography variant="h6" gutterBottom>
-                            Contact Us
+                            зв'яжіться з нами
                         </Typography>
                         <Typography variant="body2">
-                            123 Main Street, City Center
+                            123 Головна вулиця, Центр міста
                         </Typography>
                         <Typography variant="body2">
-                            Phone: +123 456 789
+                            Телефон: +123 456 789
                         </Typography>
                         <Typography variant="body2">
                             Email: info@beautystudio.com
@@ -34,7 +34,7 @@ const Footer = () => {
                     {/* Швидкі посилання */}
                     <Grid item xs={12} md={4}>
                         <Typography variant="h6" gutterBottom>
-                            Quick Links
+                            Швидкі посилання
                         </Typography>
                         <Box sx={{ display: "flex", flexDirection: "column" }}>
                             <MuiLink
@@ -51,7 +51,7 @@ const Footer = () => {
                                     },
                                 }}
                             >
-                                Home
+                                Домівка
                             </MuiLink>
                             <MuiLink
                                 component={Link}
@@ -67,7 +67,7 @@ const Footer = () => {
                                     },
                                 }}
                             >
-                                Masters
+                                Майстри
                             </MuiLink>
                             <MuiLink
                                 component={Link}
@@ -83,7 +83,7 @@ const Footer = () => {
                                     },
                                 }}
                             >
-                                Services
+                                Послуги
                             </MuiLink>
                         </Box>
                     </Grid>
@@ -91,7 +91,7 @@ const Footer = () => {
                     {/* Соціальні мережі */}
                     <Grid item xs={12} md={4}>
                         <Typography variant="h6" gutterBottom>
-                            Follow Us
+                            Слідкуйте за нами
                         </Typography>
                         <Box>
                             <IconButton

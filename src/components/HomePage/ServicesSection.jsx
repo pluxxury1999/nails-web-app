@@ -1,41 +1,42 @@
-import React from "react";
 import {
     Box,
-    Typography,
-    Grid,
+    Button,
     Card,
     CardContent,
     CardMedia,
-    Button,
     Container,
+    Grid,
+    Typography,
 } from "@mui/material";
+
 import { Link } from "react-router-dom";
+import React from "react";
 import { styled } from "@mui/system";
 
 // Дані про послуги для демонстрації
 const services = [
     {
-        title: "Haircut & Styling",
+        title: "Стрижка та укладка",
         description:
-            "Professional haircut and styling services to give you a fresh and modern look.",
+            "Професійні послуги зі стрижки та укладки, щоб надати вам свіжий та сучасний вигляд.",
         image: "/img/haircut.jpg",
     },
     {
-        title: "Manicure & Pedicure",
+        title: "Манікюр та педикюр",
         description:
-            "Treat yourself with our manicure and pedicure services for perfect nails.",
+            "Побалуйте себе нашими послугами манікюру та педикюру для ідеальних нігтів.",
         image: "/img/manicure.webp",
     },
     {
-        title: "Facial Treatments",
+        title: "Догляд за обличчям",
         description:
-            "Rejuvenate your skin with our specialized facial treatments.",
+            "Оновіть свою шкіру за допомогою наших спеціалізованих процедур для обличчя.",
         image: "/img/facial.webp",
     },
     {
-        title: "Massage Therapy",
+        title: "Масажна терапія",
         description:
-            "Relax and unwind with our soothing massage therapy sessions.",
+            "Розслабтеся та відпочиньте з нашими заспокійливими сеансами масажної терапії.",
         image: "/img/massage.webp",
     },
 ];
@@ -62,7 +63,7 @@ const ServicesSection = () => {
                     align="center"
                     gutterBottom
                 >
-                    Our Services
+                    Наші Послуги
                 </Typography>
                 <Typography
                     variant="body1"
@@ -70,8 +71,9 @@ const ServicesSection = () => {
                     color="textSecondary"
                     paragraph
                 >
-                    Discover our range of professional beauty services designed
-                    to help you look and feel your best.
+                    Ознайомтеся з нашим асортиментом професійних послуг краси,
+                    розроблених для того, щоб ви виглядали та почувалися на всі
+                    100%.
                 </Typography>
                 <Grid container spacing={4} sx={{ mt: 3 }}>
                     {services.map((service, index) => (
@@ -111,7 +113,7 @@ const ServicesSection = () => {
                         to="/services" // Шлях до сторінки з усіма послугами
                         size="large"
                     >
-                        View All Services
+                        Переглянути всі послуги
                     </Button>
                 </Box>
             </Container>

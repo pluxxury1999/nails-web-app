@@ -1,38 +1,39 @@
+import {
+    Avatar,
+    Box,
+    Button,
+    Container,
+    Grid,
+    Paper,
+    Rating,
+    Typography,
+} from "@mui/material";
+
+import { Link } from "react-router-dom"; // Додаємо Link з react-router-dom
 import React from "react";
 import Slider from "react-slick";
-import {
-    Box,
-    Typography,
-    Avatar,
-    Paper,
-    Grid,
-    Container,
-    Button,
-    Rating,
-} from "@mui/material";
-import { Link } from "react-router-dom"; // Додаємо Link з react-router-dom
 
 // Список відгуків для демонстрації
 const testimonials = [
     {
-        name: "Jane Doe",
-        service: "Haircut",
-        master: "John Smith",
-        review: "Amazing service! My haircut looks fabulous and I feel great. John did a fantastic job!",
+        name: "Джейн Доу",
+        service: "Стрижка",
+        master: "Джон Сміт",
+        review: "Моя стрижка виглядає просто неймовірно. Джон виконав фантастичну роботу!",
         rating: 5,
     },
     {
-        name: "Emily Johnson",
-        service: "Manicure",
-        master: "Anna Brown",
-        review: "I had a wonderful experience. Anna is very professional and attentive. Highly recommend!",
+        name: "Емілі Джонсон",
+        service: "Манікюр",
+        master: "Анна Браун",
+        review: "Я мала чудовий досвід. Анна дуже професійна та уважна. Дуже рекомендую!",
         rating: 4,
     },
     {
-        name: "Michael Williams",
-        service: "Massage",
-        master: "Mark Davis",
-        review: "The massage was extremely relaxing. Mark has magic hands! Definitely coming back again.",
+        name: "Майкл Вільямс",
+        service: "Масаж",
+        master: "Марк Девіс",
+        review: "Масаж був неймовірно розслаблюючим. У Марка просто чарівні руки! Обов'язково повернуся знову.",
         rating: 5,
     },
 ];
@@ -60,7 +61,7 @@ const ReviewSlider = () => {
                     align="center"
                     gutterBottom
                 >
-                    What Our Clients Say
+                    Що кажуть наші клієнти
                 </Typography>
                 <Slider {...settings}>
                     {testimonials.map((testimonial, index) => (
@@ -106,13 +107,13 @@ const ReviewSlider = () => {
                                             variant="body2"
                                             color="textSecondary"
                                         >
-                                            Service: {testimonial.service}
+                                            Послуга: {testimonial.service}
                                         </Typography>
                                         <Typography
                                             variant="body2"
                                             color="textSecondary"
                                         >
-                                            Master: {testimonial.master}
+                                            Майстер: {testimonial.master}
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -122,8 +123,6 @@ const ReviewSlider = () => {
                 </Slider>
                 {/* Кнопка для переходу до майстрів */}
                 <Box textAlign="center" sx={{ mt: 6 }}>
-                    {" "}
-                    {/* Збільшуємо відступ зверху */}
                     <Button
                         variant="contained"
                         color="secondary"
@@ -131,7 +130,7 @@ const ReviewSlider = () => {
                         to="/masters" // Шлях до сторінки з майстрами
                         size="large"
                     >
-                        Meet Our Masters
+                        Познайомтесь з нашими майстрами
                     </Button>
                 </Box>
             </Container>

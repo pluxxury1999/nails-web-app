@@ -17,6 +17,7 @@ const HeroSection = () => {
         >
             <Container maxWidth="lg">
                 <Grid container spacing={4} alignItems="center">
+                    {/* Ліва частина - текст */}
                     <Grid item xs={12} md={6}>
                         <Typography
                             variant="h3"
@@ -24,26 +25,26 @@ const HeroSection = () => {
                             gutterBottom
                             sx={{ fontWeight: "bold" }}
                         >
-                            Ласкаво просимо до Beauty Studio
+                            Знайомтесь з нашими талановитими майстрами
                         </Typography>
                         <Typography
                             variant="h6"
                             color="textSecondary"
                             paragraph
                         >
-                            Відкрийте для себе мистецтво краси з нашими
-                            професійними послугами. Ми пропонуємо широкий спектр
-                            процедур, щоб ви виглядали та почувалися на всі
-                            100%. Запишіться на прийом вже сьогодні та відчуйте
-                            трансформацію.
+                            Наша команда професійних і досвідчених майстрів
+                            краси готова надати вам виняткові послуги, які
+                            допоможуть вам виглядати і почуватися на всі 100%.
+                            Від зачісок до макіяжу, наші експерти перетворять
+                            ваші бажання в реальність.
                         </Typography>
                         <Button
                             variant="contained"
-                            color="secondary"
+                            color="primary"
                             size="large"
                             sx={{ mt: 3 }}
                         >
-                            Записатися
+                            Дізнатися про послуги
                         </Button>
                     </Grid>
 
@@ -51,8 +52,8 @@ const HeroSection = () => {
                     <Grid item xs={12} md={6}>
                         <StyledImageContainer>
                             <img
-                                src="/img/studio.webp"
-                                alt="Beauty Salon"
+                                src="/img/ourTeam.webp"
+                                alt="Команда майстрів"
                                 style={{ width: "100%", borderRadius: "10px" }}
                             />
                         </StyledImageContainer>

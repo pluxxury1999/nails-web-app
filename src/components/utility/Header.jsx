@@ -1,14 +1,15 @@
-import React from "react";
 import {
     AppBar,
-    Toolbar,
-    Typography,
+    Box,
     Button,
     Container,
     MenuItem,
-    Box,
+    Toolbar,
+    Typography,
 } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
+
+import React from "react";
 
 const Header = () => {
     const location = useLocation(); // Отримуємо поточний шлях
@@ -50,7 +51,7 @@ const Header = () => {
                                     : "none",
                             }}
                         >
-                            Home
+                            Домівка
                         </MenuItem>
                         <MenuItem
                             component={Link}
@@ -64,7 +65,7 @@ const Header = () => {
                                     : "none",
                             }}
                         >
-                            Masters
+                            Майстри
                         </MenuItem>
                         <MenuItem
                             component={Link}
@@ -78,7 +79,7 @@ const Header = () => {
                                     : "none",
                             }}
                         >
-                            Services
+                            Послуги
                         </MenuItem>
                     </Box>
                     {/* Кнопка Book Now */}
@@ -89,7 +90,7 @@ const Header = () => {
                         color="secondary"
                         sx={{ ml: 2 }}
                     >
-                        Book Now
+                        Записатись
                     </Button>
                 </Toolbar>
             </Container>
